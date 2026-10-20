@@ -1,0 +1,2 @@
+# Optional: needed only to convert non-PNG/JPEG images.
+Pillow
