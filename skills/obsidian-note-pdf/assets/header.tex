@@ -1,0 +1,103 @@
+% ---- page, fonts, and Chinese typography -------------------------------
+\usepackage[a4paper,left=22mm,right=22mm,top=24mm,bottom=22mm,
+  headheight=14pt,footskip=9mm]{geometry}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{luacolor}
+\usepackage{lua-ul}
+\usepackage{enumitem}
+\usepackage{needspace}
+\usepackage{etoolbox}
+
+\setmainfont{Times New Roman}
+\setsansfont{Microsoft YaHei}
+\setmonofont{Consolas}
+% SimSun has no real bold/italic face.  Synthesize both so Chinese emphasis
+% does not silently fall back to the regular face.
+\setCJKmainfont{SimSun}[AutoFakeBold=3.0, AutoFakeSlant=0.20]
+\setCJKsansfont{SimHei}
+\setCJKmonofont{SimHei}
+
+\providecommand{\DocTitle}{}
+\providecommand{\DocSubtitle}{}
+\providecommand{\DocByline}{}
+\providecommand{\DocNote}{}
+\providecommand{\DocHeaderLeft}{}
+\providecommand{\DocHeaderRight}{}
+\providecommand{\DocAuthor}{}
+\providecommand{\DocSubject}{}
+\providecommand{\DocKeywords}{}
+
+\linespread{1.28}
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0.22em plus 0.10em minus 0.05em}
+\setlength{\emergencystretch}{2.5em}
+\setlength{\abovedisplayskip}{7pt plus 2pt minus 2pt}
+\setlength{\belowdisplayskip}{7pt plus 2pt minus 2pt}
+\setlength{\jot}{4pt}
+
+\definecolor{rulegray}{RGB}{126,136,146}
+\definecolor{headgray}{RGB}{105,112,120}
+\definecolor{sectionblue}{RGB}{24,68,108}
+\definecolor{linkblue}{RGB}{20,88,150}
+\definecolor{hlYellow}{RGB}{255,240,150}
+\definecolor{hlRed}{RGB}{255,204,204}
+\definecolor{hlBlue}{RGB}{204,229,255}
+
+% ---- headings ----------------------------------------------------------
+\titleformat{\section}[block]
+  {\normalfont\sffamily\bfseries\fontsize{18}{24}\selectfont\color{sectionblue}}
+  {}{0pt}{}
+  [\vspace{2.5pt}{\color{rulegray}\titlerule[0.6pt]}]
+\titlespacing*{\section}{0pt}{3.0ex plus 1.0ex minus 0.2ex}{1.5ex}
+
+\titleformat{\subsection}[hang]
+  {\normalfont\sffamily\bfseries\fontsize{13.5}{18}\selectfont\color{sectionblue}}
+  {}{0pt}{}
+\titlespacing*{\subsection}{0pt}{2.5ex plus 0.7ex minus 0.2ex}{0.85ex}
+
+\titleformat{\subsubsection}[hang]
+  {\normalfont\sffamily\bfseries\fontsize{11.5}{15}\selectfont\color{black}}
+  {}{0pt}{}
+\titlespacing*{\subsubsection}{0pt}{2.0ex plus 0.5ex minus 0.2ex}{0.65ex}
+
+% Do not leave a heading stranded at the foot of a page.
+\AddToHook{cmd/section/before}{\Needspace{9\baselineskip}}
+\AddToHook{cmd/subsection/before}{\Needspace{7\baselineskip}}
+\AddToHook{cmd/subsubsection/before}{\Needspace{5\baselineskip}}
+
+% ---- running header and footer ----------------------------------------
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\sffamily\color{headgray}\DocHeaderLeft}
+\fancyhead[R]{\small\sffamily\color{headgray}\DocHeaderRight}
+\fancyfoot[C]{\small\color{headgray}\thepage}
+\renewcommand{\headrulewidth}{0.35pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% ---- lists, quotations, and tables ------------------------------------
+\setlist[itemize]{leftmargin=2.2em,itemsep=0.12em,topsep=0.3em,parsep=0pt}
+\setlist[enumerate]{leftmargin=2.4em,itemsep=0.15em,topsep=0.3em,parsep=0pt}
+\AtBeginEnvironment{quote}{\small\color{black!85}}
+
+\AtBeginEnvironment{longtable}{%
+  \footnotesize
+  \renewcommand{\arraystretch}{1.06}%
+}
+\setlength{\tabcolsep}{4pt}
+\setlength{\LTpre}{3pt}
+\setlength{\LTpost}{5pt}
+
+% ---- hyperlinks and PDF metadata --------------------------------------
+\AtBeginDocument{%
+  \hypersetup{
+    pdftitle={\DocTitle},
+    pdfauthor={\DocAuthor},
+    pdfsubject={\DocSubject},
+    pdfkeywords={\DocKeywords},
+    bookmarksopen=true,
+    bookmarksnumbered=false
+  }%
+}
